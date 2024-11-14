@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Index</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .file-list { list-style-type: none; padding: 0; }
+        .file-item { margin-bottom: 10px; }
+        .admin-panel { display: none; margin-top: 20px; }
+        .admin-button { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>File Downloads</h1>
+    <ul class="file-list" id="fileList"></ul>
+    
+    <!-- Button to Show Admin Login -->
+    <button class="admin-button" onclick="adminLogin()">Admin Login</button>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <h2>Admin Panel</h2>
+        <button onclick="addFile()">Add File</button>
+        <button onclick="deleteFile()">Delete File</button>
+    </div>
+
+    <script>
+        // File data structure, initially hardcoded
+        let files = [
+            { name: "Example File 1", url: "files/example1.zip" },
+            { name: "Example File 2", url: "files/example2.zip" }
+        ];
+
+        // Render file list
+        function renderFileList() {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+            files.forEach(file => {
+                const listItem = document.createElement('li');
+                listItem.className = 'file-item';
+                listItem.innerHTML = `<a href="${file.url}" download>${file.name}</a>`;
+                fileList.appendChild(listItem);
+            });
+        }
+
+        // Admin login function with password "031314"
+        function adminLogin() {
+            const password = prompt("Enter admin password:");
+            if (password === '031314') {
+                document.getElementById('adminPanel').style.display = 'block';
+            } else {
+                alert("Incorrect password");
+            }
+        }
+
+        // Functions to add and delete files
+        function addFile() {
+            const fileName = prompt("Enter file name:");
+            const fileUrl = prompt("Enter file URL:");
+            if (fileName && fileUrl) {
+                files.push({ name: fileName, url: fileUrl });
+                renderFileList();
+            }
+        }
+
+        function deleteFile() {
+            const fileName = prompt("Enter the name of the file to delete:");
+            files = files.filter(file => file.name !== fileName);
+            renderFileList();
+        }
+
+        // Initial render of file list
+        renderFileList();
+    </script>
+</body>
+</html>
